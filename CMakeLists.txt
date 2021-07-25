@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 project(EnderStrap VERSION 0.0.1 LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -16,5 +16,5 @@ qt5_wrap_ui(UI_HEADERS login.ui)
 
 add_executable(strap strap.cpp login.cpp ${MOC_SRCS} ${UI_HEADERS})
 
-target_link_libraries(strap Qt5::Widgets jsoncpp curl ${JNI_LIBRARIES})
+target_link_libraries(strap Qt5::Widgets jsoncpp curl ${JNI_LIBRARIES} pthread)
 target_include_directories(strap PRIVATE ${JNI_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR})

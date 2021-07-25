@@ -12,11 +12,9 @@ class LoginWindow : public QMainWindow
 public:
     explicit LoginWindow(QWidget *parent = nullptr);
     ~LoginWindow();
+    void updateProgress(int percent, bool done);
 
 private slots:
-    void setUsername();
-    void setPassword();
-    void exit();
     void launch();
 
 private:
