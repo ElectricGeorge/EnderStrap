@@ -7,9 +7,9 @@
 #include <QApplication>
 #include <QDir>
 #include "login.h"
-#include <json/json.h>
-#include <curl/curl.h>
-#include <jni.h>
+//#include <json/json.h>
+//#include <curl/curl.h>
+//#include <jni.h>
 
 #define PACK_TITLE "AndromedaModpack"
 #define PACK_ID "1a123310dd34d97c0d2330e88c494bd40dbec111"
@@ -28,7 +28,7 @@ int window(int argc, char* argv[], LoginWindow** handle) {
 
 int main(int argc, char* argv[]) {
     
-    Json::Value root;
+    //Json::Value root;
     //std::cout << QDir::homePath().toStdString() + "/.enderstrap/user.json";
     std::string user_path = QDir::homePath().toStdString() + "/.enderstrap/" + PACK_ID;
 

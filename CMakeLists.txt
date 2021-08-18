@@ -9,12 +9,14 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
-find_package(JNI REQUIRED)
+#find_package(JNI REQUIRED)
 
 qt5_wrap_cpp(MOC_SRCS login.h)
 qt5_wrap_ui(UI_HEADERS login.ui)
 
 add_executable(strap strap.cpp login.cpp ${MOC_SRCS} ${UI_HEADERS})
 
-target_link_libraries(strap Qt5::Widgets jsoncpp curl ${JNI_LIBRARIES} pthread)
-target_include_directories(strap PRIVATE ${JNI_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR})
+#target_link_libraries(strap Qt5::Widgets jsoncpp curl ${JNI_LIBRARIES} pthread)
+target_link_libraries(strap Qt5::Widgets pthread)
+#target_include_directories(strap PRIVATE ${JNI_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(strap PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
