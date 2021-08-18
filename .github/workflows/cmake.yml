@@ -1,0 +1,85 @@
+name: CMake
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    # The CMake configure and build commands are platform agnostic and should work equally
+    # well on Windows or Mac.  You can convert this to a matrix build if you need
+    # cross-platform coverage.
+    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install Qt
+      # You may pin to the exact commit or the version.
+      # uses: jurplel/install-qt-action@c04feedfdfd6dbe64db62deda57fb0971a1bf440
+      uses: jurplel/install-qt-action@v2.14.0
+      with:
+        # Directory to install Qt
+        #dir: # optional
+        # Version of Qt to install
+        version: 5.15.2 # optional, default is 5.15.2
+        # Host platform
+        #host: # optional
+        # Target platform for build
+        target: desktop # optional, default is desktop
+        # Architecture for Windows/Android
+        #arch: # optional
+        # Whether or not to install Qt dependencies on Linux
+        install-deps: true # optional, default is true
+        # Additional Qt modules to install
+        #modules: # optional
+        # Whether or not to actually download Qt
+        cached: false # optional, default is false
+        # Whether or not to automatically run setup-python to find a valid python version.
+        setup-python: true # optional, default is true
+        # Qt tools to download--specify comma-separated argument lists which are themselves separated by spaces: <tool_name>,<tool_version>,<tool_arch>
+        #tools: # optional
+        # Whether or not to set environment variables after running aqtinstall
+        set-env: true # optional, default is true
+        # Whether or not to actually install Qt or just the tools from the tools argument
+        tools-only: false # optional, default is false
+        # Version of aqtinstall to use in case of issues
+        aqtversion: ==1.2.5 # optional, default is ==1.2.5
+        # Version of py7zr to use in case of issues
+        py7zrversion: ==0.16.1 # optional, default is ==0.16.1
+        # Any extra arguments to append to the back
+        #extra: # optional
+
+    - name: Configure CMake
+      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+
+    - name: Build
+      # Build your program with the given configuration
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+    - name: Test
+      working-directory: ${{github.workspace}}/build
+      # Execute tests defined by the CMake configuration.  
+      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+      run: ctest -C ${{env.BUILD_TYPE}}
+      
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        # Artifact name
+        name: cmake_build # optional, default is artifact
+        # A file, directory or wildcard pattern that describes what to upload
+        path: /home/runner/work/EnderStrap/EnderStrap/build
+        # The desired behavior if no files are found using the provided path.
+        if-no-files-found: warn # optional, default is warn
+        # Duration after which artifact will expire in days. 0 means using default retention.
+        retention-days: 1 # optional
